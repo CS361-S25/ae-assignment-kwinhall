@@ -43,9 +43,10 @@ class AEAnimate : public emp::web::Animate {
     AEAnimate() {
 
         doc << "<div style \"display: flex\">";
-        doc << "<div>" << canvas.SetCSS("margin", "8px").SetCSS("float", "left") << GetToggleButton("Toggle") << GetStepButton("Step") << "</div>";
-        doc << "<div><p>" << "This program implements an artificial ecosystem with two species that evolve and engage in ecological interactions (predation and competition) on a toroidal grid. Predators are depicted as red, prey are depicted as blue, and uninhabited squares of grass are depicted as green." << "</p>";
-        doc << "<p>" << "Predators are stronger and reproduce slower, while prey are weaker but reproduce faster. Predators hunt prey and eat them for strength (predation). If they're strong enough, prey fend off the attacks and kill the predator that attacks them. Organisms also compete for resources within their own species (competition). In particular, when two organisms wish to inhabit the same square of grass, they fight to the death to settle the dispute." << "</p></div>";
+        doc << "<div>" << canvas.SetCSS("margin", "8px").SetCSS("float", "left");
+        doc << GetToggleButton("Toggle").SetCSS("margin-top", "8px") << GetStepButton("Step").SetCSS("margin-top", "8px") << "</div>";
+        doc << "<div><p>" << "This program implements an artificial ecosystem with two species that evolve and engage in ecological interactions (predation and competition) on a toroidal grid. Predators are depicted as red, prey are depicted as blue, and uninhabited squares of grass are depicted as green. The dynamic oscillates between predators dominating and prey dominating." << "</p>";
+        doc << "<p>" << "Predators are stronger and reproduce more slowly, while prey are weaker but reproduce more quickly. Predators hunt prey and eat them for strength (predation). If they're strong enough, prey fend off the attacks and kill the predator. Organisms also compete for resources within their own species (competition). In particular, when two organisms wish to inhabit the same square of grass, they fight to the death to settle the dispute." << "</p></div>";
 
         world.Resize(num_w_boxes, num_h_boxes);  
         world.SetPopStruct_Grid(num_w_boxes, num_h_boxes);
@@ -81,7 +82,7 @@ class AEAnimate : public emp::web::Animate {
                     else if (world.GetOrg(org_num).GetType() == "Prey") {color = "blue";}
                     else {color = "black";}
                 } 
-                else { // empty cells are "grass"
+                else { // uninhabited cells are grass
                     color = "green"; 
                 }
                 canvas.Rect(x * RECT_SIDE, y * RECT_SIDE, RECT_SIDE, RECT_SIDE, color, color); // draws organisms
