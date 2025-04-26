@@ -41,9 +41,11 @@ class AEAnimate : public emp::web::Animate {
     * Creates web interface and initializes population.
     */
     AEAnimate() {
-        doc << canvas;
-        doc << GetToggleButton("Toggle");
-        doc << GetStepButton("Step");
+
+        doc << "<div style \"display: flex\">";
+        doc << "<div>" << canvas.SetCSS("margin", "8px").SetCSS("float", "left") << GetToggleButton("Toggle") << GetStepButton("Step") << "</div>";
+        doc << "<div><p>" << "This program implements an artificial ecosystem with two species that evolve and engage in ecological interactions (predation and competition) on a toroidal grid. Predators are depicted as red, prey are depicted as blue, and uninhabited squares of grass are depicted as green." << "</p>";
+        doc << "<p>" << "Predators are stronger and reproduce slower, while prey are weaker but reproduce faster. Predators hunt prey and eat them for strength (predation). If they're strong enough, prey fend off the attacks and kill the predator that attacks them. Organisms also compete for resources within their own species (competition). In particular, when two organisms wish to inhabit the same square of grass, they fight to the death to settle the dispute." << "</p></div>";
 
         world.Resize(num_w_boxes, num_h_boxes);  
         world.SetPopStruct_Grid(num_w_boxes, num_h_boxes);
