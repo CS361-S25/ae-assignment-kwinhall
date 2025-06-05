@@ -1,4 +1,8 @@
+#ifndef PREY_H
+#define PREY_H
+
 #include "Org.h"
+#include "Predator.h"
 
 
 /**
@@ -28,6 +32,7 @@ class Prey : public Organism {
                 return nullptr;
             }
         }
+
         
         /**
          * Mutates a Prey organism's strength value by a small, pseudorandom amount
@@ -37,4 +42,24 @@ class Prey : public Organism {
             double randomNum = random.GetRandNormal(0.0, 1.0);
             AddStrength(randomNum);
         }
+
+
+        /**
+         * Facilitates a competition for space between two organisms, updating organisms' strength levels and death statuses accordingly.
+         * @param org2 The second organism in the interaction.
+         * @param org1Position The first organism's position in the population.
+         * @param org2Position The second organism's position in the population.
+         * @return position of the organism that will die.
+         */
+        virtual int Interact(Organism* org2, int org1Position, int org2Position) override {
+            int indexToDie;
+            if (org2->GetType() == "Predator") { // if the other org is a predator, it hunts the prey
+                indexToDie = dynamic_cast<Predator*>(org2)->Hunt(this, org2Position, org1Position);
+            }
+            else { // otherwise, the prey fights the other org to the death
+                indexToDie = Fight(org2, org1Position, org2Position);
+            }
+            return indexToDie;
+        }
 };
+#endif

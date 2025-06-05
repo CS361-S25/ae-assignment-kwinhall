@@ -30,6 +30,7 @@ class Organism {
 
         virtual std::string GetType() {return "Org";}
 
+
         /**
          * If an Organism can reproduce, creates its offspring.
          * @return Pointer to offspring (null pointer if the Organism cannot reproduce)
@@ -47,6 +48,7 @@ class Organism {
             }
         }
 
+        
         /**
          * Mutates an Organism's strength value by a small, pseudorandom amount
          * @param random Pseudorandom number generator
@@ -55,5 +57,39 @@ class Organism {
             double randomNum = random.GetRandNormal(0.0, 5.0);
             strength += randomNum;
         }
+
+
+        /**
+         * Facilitates a fight between two organisms, updating organisms' strength levels and death statuses accordingly.
+         * @param org2 The second organism in the fight.
+         * @param org1Position The first organism's position in the population.
+         * @param org2Position The second organism's position in the population.
+         * @return position of the organism that will die.
+         */
+        int Fight(Organism* org2, int org1Position, int org2Position) {
+            // the stronger organism wins the fight
+            if (GetStrength() >= org2->GetStrength()) {
+                AddStrength(0.05 * org2->GetStrength());
+                return org2Position;
+            }
+            else {
+                org2->AddStrength(0.05 * GetStrength());
+                return org1Position;
+            }
+        }
+
+
+        /**
+         * Facilitates a competition for space between two organisms, updating organisms' strength levels and death statuses accordingly.
+         * @param org2 The second organism in the interaction.
+         * @param org1Position The first organism's position in the population.
+         * @param org2Position The second organism's position in the population.
+         * @return position of the organism that will die.
+         */
+        virtual int Interact(Organism* org2, int org1Position, int org2Position) {
+            int indexToDie = Fight(org2, org1Position, org2Position);
+            return indexToDie;
+        }
+        
 };
 #endif
